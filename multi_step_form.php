@@ -18,34 +18,87 @@
  */
 
 
-/*
-{Alchemist} is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
-any later version.
-
-{Alchemist} is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with {Alchemist}. If not, see {URI to Plugin License}.
-*/
-
-
 if (!defined('ABSPATH')) {
     die;
 }
 
 
-
 function form_user_details()
 {
-    $user_id = get_current_user_id();
-    echo "Hello ";
-    echo $user_id;
-    $user_info = get_userdata(5);
-    echo  $user_info->user_login;
+    $user = (isset($_POST['username']) ? $_POST['username'] : '');
+    $pass = (isset($_POST['password']) ? $_POST['password'] : '');
+    $email = (isset($_POST['email']) ? $_POST['email'] : '');
+
+    if (!username_exists($user)  && !email_exists($email)) {
+        $user_id = wp_create_user($user, $pass, $email);
+        if (!is_wp_error($user_id)) {
+            //user has been created
+            $user = new WP_User($user_id);
+            $user->set_role('do');
+            //Redirect
+            wp_redirect('#');
+            exit;
+        } else {
+            //$user_id is a WP_Error object. Manage the error
+        }
+    } else {
+        // user exist
+    }
+
+
+
+
+
+
+
+
+    // $user_id = wp_create_user($username, $password, $email);
+
+    // $args = array(
+    //     'post_type'   => 'pafe-form-database',
+    //     'posts_per_page' => -1,
+    // );
+
+    // $scheduled = new WP_Query($args);
+
+    // if ($scheduled->have_posts()) {
+    //     while ($scheduled->have_posts()) {
+    //         echo 'hello';
+    //         $post_name = $scheduled->the_post();
+    //         $post_id = get_the_ID();
+    //         $post_author_id = get_the_author_ID();
+    //         $current_user_id = get_current_user_id();
+
+    //         if ($post_id == $current_user_id) {
+    //             echo $post_id;
+    //             var_dump($post_id);
+    //         }
+    //     }
+    //     wp_reset_postdata();
+    // }
+
+
+
+    // add_filter('authenticate', 'nop_auto_login', 3, 10);
+
+    // function nop_auto_login($user, $username, $password)
+    // {
+    //     if (!$user) {
+    //         $user = get_user_by('email', $username);
+    //     }
+    //     if (!$user) {
+    //         $user = get_user_by('login', $username);
+    //     }
+
+    //     if ($user) {
+    //         wp_set_current_user($user->ID, $user->data->user_login);
+    //         wp_set_auth_cookie($user->ID);
+    //         do_action('wp_login', $user->data->user_login);
+
+    //         wp_safe_redirect(admin_url());
+    //         exit;
+    //     }
+    // }
+
 }
 add_shortcode('form_user_details', 'form_user_details');
