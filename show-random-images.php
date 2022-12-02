@@ -2,13 +2,13 @@
 
 /**
  * Plugin Name: show form data
- * Plugin URI: http://mahmudhaisan.com/
+ * Plugin URI: https://github.com/AbhijitSarker
  * Description: show form data by user
  * Version: 1.0
- * Author: Mahmud haisan
- * Author URI: https://github.com/mahmudhaisan
+ * Author: Abhijit
+ * Author URI: https://github.com/AbhijitSarker
  * Developer: Mahmud Haisan
- * Developer URI: https://github.com/mahmudhaisan
+ * Developer URI: https://github.com/AbhijitSarker
  * Text Domain: random493
  * Domain Path: /languages
  * License: GNU General Public License v3.0
